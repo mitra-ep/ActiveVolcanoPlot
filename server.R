@@ -103,8 +103,8 @@ server <- function(input, output) {
                         False_Discovery=c(paste(round(numslec*FDPhat,2),"(",0,",",round(numslec*FDPbar,2),")" ), 
                                           paste(round(FDPhat,2),"(",0,",",round(FDPbar,2),")")))
         rownames(outframe)<-c("Number", "Proportion")
-        colnames(outframe)<-c("Selected",paste("TDP","(",paste0(95,"%"),"CI",")" ),
-                              paste("FDP","(",paste0(95,"%"),"CI",")" ) )
+        colnames(outframe)<-c("Selected",paste("True Discovery","(",paste0(95,"%"),"CI",")" ),
+                              paste("False Discovery","(",paste0(95,"%"),"CI",")" ) )
         outframe}, rownames = TRUE, align = 'c')
   
   #VP plot
@@ -128,6 +128,7 @@ server <- function(input, output) {
         colcod[selected]<-1 }
       
       
+      
       #volcano plot
       avp<-ggplot(indata) +
         geom_point(aes(x = indata[,2], y = -log10(indata[,3]),color = factor(colcod)))+
@@ -147,8 +148,35 @@ server <- function(input, output) {
       
       return(avp)
       }, height = 400, width = 600)
-          
-
+      
+  select_out=function(){
+    indata<-input.data()
+    
+    #filter features
+    pthr<-10^(-1*input$pthresh)
+    
+    if(input$selection=="Symetric"){
+      tright<- input$vthresh2
+      tleft<- -1*(input$vthresh2)
+      selected<-which(abs(indata[,2])> tright & indata[,3]< pthr)}
+    
+    if(input$selection=="non-Symetric"){
+      tright<-input$vthresh1[1]
+      tleft<- input$vthresh1[2]
+      selected<-union(which(indata[,2]<tright & indata[,3]< pthr),
+                      which(indata[,2]>tleft & indata[,3]< pthr) ) }
+    
+    indata[selected,]}    
+  # Downloadable csv of selected features
+  output$downloadData <- downloadHandler(
+         filename = function() {
+        paste("selected", ".csv", sep = "")
+         },
+        
+    content = function(file) {
+      write.csv(select_out(), file, row.names = FALSE)
+    }
+  )
   
   }
   

@@ -25,7 +25,8 @@ ui<-shinyUI(pageWithSidebar(
     uiOutput("sliderfc2"),
     textInput('xlabel', "Label for X-axis", 'Fold Change'),
     textInput('ylabel', "Label for Y-axis", '-Log10 p-value')  
-                                                          , width = 4)),
+                                                          , width = 4),
+ downloadButton("downloadData", "Download Selected Features")),
 
   #output
   mainPanel(
