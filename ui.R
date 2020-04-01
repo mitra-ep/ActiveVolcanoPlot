@@ -5,7 +5,7 @@ ui<-shinyUI(pageWithSidebar(
   headerPanel("Active Volcano Plot"),
   
   sidebarPanel(
-    h3("Input file"),
+    h3("Input"),
     div(style =" margin-top:-1em ", 
       fluidRow(  column(9,checkboxInput('header', 'Header', FALSE)),
       column(9,radioButtons('sep', 'Separator', c( Tab='\t', Comma=','), 'Tab', inline=TRUE)),
@@ -13,16 +13,24 @@ ui<-shinyUI(pageWithSidebar(
                           c(None='', 'Double'='"', 'Single'="'"), 'Double', inline=TRUE))  )),
   
         div(style ="margin-bottom:-1em ",
-        fileInput('file1', 'Choose',
+        fileInput('cvsfile', 'Choose file',
                   accept=c('text/csv', 'text/comma-separated-values,text/plain', '.csv')) ),
+  
+    tags$hr(tags$style(HTML("hr {border-top: 1px solid #000000;}"))),
     
- tags$hr(tags$style(HTML("hr {border-top: 1px solid #000000;}"))),
- 
+    h4("Selection type"),  
+    selectInput("selecttype", "Select features by",
+                choices = c("Number of Top", "Threshold")),
+    
+    tags$hr(tags$style(HTML("hr {border-top: 1px solid #000000;}"))),
+    
  div(style ="margin-top:-1em",
     uiOutput("sliderpval"),
-    selectInput("selection", "Select FC threshold type", choices = c("Symetric", "non-Symetric")),
+    uiOutput("numtop"),
+    uiOutput("thrtype"),
     uiOutput("sliderfc1"),
     uiOutput("sliderfc2"),
+    
     textInput('xlabel', "Label for X-axis", 'Fold Change'),
     textInput('ylabel', "Label for Y-axis", '-Log10 p-value')  
                                                           , width = 4),
