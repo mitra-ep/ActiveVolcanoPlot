@@ -6,13 +6,19 @@ suppressPackageStartupMessages(library(ggplot2))
 server <- function(input, output) {
   ##inpud data
   input.data <- reactive({
-    req(input$cvsfile)
+    
     inFile <- input$cvsfile
-    dataframe <- read.csv(
-      inFile$datapath,
-      header=input$header,
-      sep=input$sep,
-      quote=input$quote)
+    
+    if (!is.null(inFile)){
+      dataframe <- read.csv(
+        inFile$datapath,
+        header=input$header,
+        sep=input$sep,
+        quote=input$quote)
+    }
+    else {
+      testdata<-read.csv("./Data/testAVP.csv")
+    }
   })
 
   
