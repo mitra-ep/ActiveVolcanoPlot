@@ -47,16 +47,11 @@ ui<-shinyUI(pageWithSidebar(
                tabPanel("Help",
                         h3("About"),
                         h4("This Shiny app is designed to create volcano plot with type I error control over
-                           any set of selected features."),
-                        h4("This means that changing the thresholds for Fold Change and p-value will not inflated the
-                           type I error rate."),
+                           any set of selected features.This means that changing the thresholds for Fold Change 
+                           and p-value will not inflated the type I error rate over the selected features."),
                         h3("Input File"),
                         h4("The input file should be in text format with 3 columns in this order:
-                           featureID, fold change, raw p-value."),
-                        h4("The properties of the file include:"),
-                        h4("-Header (Is the header included in the file?)"),
-                        h4("-Seperator (How are columns seperated?)"),
-                        h4("-Quotes (Which type of quotes is used for character?)"))
+                           featureID, fold change, raw p-value.") )
       
            )
         )
