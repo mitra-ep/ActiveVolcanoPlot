@@ -8,11 +8,11 @@ Here we introduce very briefly the issue with classic Volcano Plots and give an 
 
 ## Example Simulations
 
-The codes to reproduce the simulation results under different parameters in provided above ('simProb.R'). Here we will use the example data produced under following parameters:
-Number of features = 20000 , denoted by m
-sample size = 12, denoted by n
-proportion of truly active features = 0.2 , denoted by pi1
-effect size = 1 , denoted by gamma
+The codes to reproduce the simulation results under different parameters in provided above ('simProb.R'). Here we will use the example data produced under following parameters:\
+Number of features = 20000 , denoted by m\
+sample size = 12, denoted by n\
+proportion of truly active features = 0.2 , denoted by pi1\
+effect size = 1 , denoted by gamma\
 
 For simplicity we do no include the effect of variance here, which is controled by lambda (here lambda=0) in the simulation codes. Simulations are repeated 1000 times and the corresponding data is saved as ''.
 
