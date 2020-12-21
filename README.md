@@ -1,6 +1,6 @@
 # Intro
 
-This page is the reference code page for the simulation used to portray the inherent problem of classic Volcano plots. It also includes codes for the suggested alternative approach which is implemented in the *Active Volcano Plot* shiny app.
+This page is the reference code page for the simulations used to portray the inherent problem of classic volcano plots. It also includes codes for the suggested alternative approach which is implemented in the *Active Volcano Plot* shiny app.
 
 # Type I error inflation with classic volcano Plots
 
@@ -16,14 +16,13 @@ effect size = 1 , denoted by gamma\
 
 For simplicity we do not include the effect of variance here, which is controled by lambda in the codes (here lambda=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-![](https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/Data/BarPlot0.png)
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/Data/BarPlot0.png" width="100" height="100">
 
-This means that under these parameters the *top* discovery is percent of times is actually a false dicovery.
+This means that under these parameters about 14 percent of the time *top* discovery is actually a false dicovery.
 
-**Note:** You can checkout the '' file for an example of RNA-seq study with the same issue.
+**Note:** You can checkout the 'resample_SRP059039.rmd' file for an example of RNA-seq study with the same issue.
 
 # Active Volcano Plot
-
 
 R application that uses *shiny* to build a user interface to get an Active volcano plot for the specified dataset. The name *Active* refers to the fact that modification of thresholds does not inflate type I error. *Post-hoc* selection of features is allowed due to use of closed testing.
 
