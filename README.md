@@ -12,7 +12,7 @@ The codes to reproduce the simulation results under different parameters in prov
 Number of features = 20000 , denoted by m\
 sample size = 12, denoted by n\
 proportion of truly active features = 0.2 , denoted by pi1\
-effect size = 1 , denoted by gamma\
+effect size = 1 , denoted by gamma
 
 For simplicity we do not include the effect of variance here, which is controled by lambda in the codes (here lambda=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
