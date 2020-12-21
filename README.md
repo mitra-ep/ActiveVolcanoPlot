@@ -16,7 +16,7 @@ effect size = 1 , denoted by gamma\
 
 For simplicity we do not include the effect of variance here, which is controled by lambda in the codes (here lambda=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/Data/BarPlot0.png" width="100" height="100">
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/Data/BarPlot0.png" width="300" height="300">
 
 This means that under these parameters about 14 percent of the time *top* discovery is actually a false dicovery.
 
