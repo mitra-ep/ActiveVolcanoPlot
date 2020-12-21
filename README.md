@@ -8,20 +8,16 @@ Here we introduce very briefly the issue with classic volcano plots and give som
 
 ## Simulation study example
 
-The codes to reproduce the simulation results under different parameters in provided above ('simProb.R'). The data are generated based on a simple regression model with a group variable. The goal is to detect the differentially expressed features between two groups (diseased vs control). Here we will use the example data produced under following parameters:\
+The codes to reproduce the simulation results under different parameters in provided above ('simVPProb.R'). The data are generated based on a simple regression model with a group variable. The goal is to detect the differentially expressed features between two groups (diseased vs control). Here we will use the example data produced under following parameters:\
 Number of features = 20000 , denoted by m\
 sample size = 12, denoted by n\
 proportion of truly active features = 0.2 , denoted by pi1\
 effect size = 1 , denoted by gamma\
 
-For simplicity we do not include the effect of variance here, which is controled by lambda (here lambda=0) in the codes. Simulations are repeated 1000 times and the corresponding data is saved as ''. Here we load this data and plot the false discovery proportion (FDP) for selecting top 1 to 100 features:
+For simplicity we do not include the effect of variance here, which is controled by lambda in the codes (here lambda=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-```r
-load(".RData")
-barplot(colMeans(fdp),
-          xlab = "Selected Probes", ylab ="FDP", names.arg= c(1:100),
-          cex.axis=1.1,space=rep(0.3,100),ylim = c(0,0.4))
-```
+![alt text](link_here)
+
 This means that under these parameters the *top* discovery is percent of times is actually a false dicovery.
 
 **Note:** You can checkout the '' file for an example of RNA-seq study with the same issue.
@@ -31,4 +27,4 @@ This means that under these parameters the *top* discovery is percent of times i
 
 R application that uses *shiny* to build a user interface to get an Active volcano plot for the specified dataset. The name *Active* refers to the fact that modification of thresholds does not inflate type I error. *Post-hoc* selection of features is allowed due to use of closed testing.
 
-See https://mebpr.shinyapps.io/activevp/ to use the online version (Updated on 1-4-2020).
+See https://mebpr.shinyapps.io/activevp/ to use the online version (Updated on 20-12-2020).
