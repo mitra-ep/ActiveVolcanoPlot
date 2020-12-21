@@ -45,12 +45,21 @@ ui<-shinyUI(pageWithSidebar(
               plotOutput(outputId = 'volcano', width = "800px", height = "600px")),
       tabPanel("Data Preview", tableOutput("contents")),
                tabPanel("Help",
-                        h3("About"),
-                        h4("This Shiny app is designed to create volcano plot with type I error control over
-                           any set of selected features.This means that changing the thresholds for Fold Change 
-                           and p-value will not inflated the type I error rate over the selected features."),
-                        h3("Input File"),
-                        h4("The input file should be in text format with 3 columns in this order:
+                        h4("About"),
+                        h5("This Shiny app is designed to create volcano plot with type I error control over
+                           any set of selected features. It incorporates closed testing with Simes local test to build
+                           simultaneous confidence bound for any subset of features, along with a median point estimate.
+                           This means that changing the thresholds for fold change and p-value will not inflated the type
+                           I error rate over the selected features."),
+                        tags$div(
+                          "For more details abut this app and to see read about the type I erro inflation of classic volcano plots,
+                          visit this",
+                          tags$a(href="https://github.com/mitra-ep/ActiveVolcanoPlot", 
+                                 "github page.")
+                        ),
+
+                        h4("Input File"),
+                        h5("The input file should be in text format with 3 columns in this order:
                            featureID, fold change, raw p-value.") )
       
            )

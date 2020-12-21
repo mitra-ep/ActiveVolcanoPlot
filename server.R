@@ -17,7 +17,7 @@ server <- function(input, output) {
         quote=input$quote)
     }
     else {
-      testdata<-read.csv("./Data/testAVP.csv")
+      testdata<-read.csv("./Data/testAVP.txt", sep=",", header=TRUE)
     }
   })
 
