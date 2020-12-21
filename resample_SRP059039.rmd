@@ -1,0 +1,187 @@
+---
+title: "Resampling procedure - RNA-seq data"
+subtitle: "permuting the null features from validation set"
+
+author: "M E"
+
+date: "20-12-2020"
+output: html_document
+---
+
+```{r packages, include=FALSE, message=FALSE, warning=FALSE}
+library(limma)
+library(edgeR)
+library(recount)
+library(hommel)
+
+```
+
+# Data Prep.
+
+```{r input, ech=TRUE, eval=TRUE}
+# this will be done once, te data are saved for load
+
+download_study("SRP059039")
+load("SRP059039/rse_gene.Rdata")
+pheno <- as.data.frame(colData(rse_gene))
+pheno$cat <- as.factor(unlist(lapply(pheno$characteristics, `[[`, 2)))
+pheno$org <- as.factor(unlist(lapply(pheno$characteristics, `[[`, 3)))
+
+#check levels
+table(pheno$org, by=pheno$cat)
+
+#Scale counts
+rse_gene_scaled<- scale_counts(rse_gene)
+
+#Extract counts 
+rawcounts <- assays(rse_gene_scaled)$counts
+
+```
+
+
+# Resampling procedure - organisms: Shigella
+
+
+```{r perm_null_Shig,echo=TRUE}
+
+
+#rename the levels
+pheno$group[pheno$cat=="group: Control" & pheno$org=="organisms: Negative"]<-"HC"
+pheno$group[pheno$cat=="group: Diarrhea" & pheno$org=="organisms: Shigella"]<-"Shig"
+
+#remove other groups
+pheno<-pheno[which(pheno$group!="HC" | pheno$group!="Shig"),]
+
+#group IDs
+HCid<-pheno[which(pheno$group=="HC"), 4]
+Diaid<-pheno[which(pheno$group=="Shig"), 4]
+
+#make sure the count and pheno match
+count39<-rawcounts[, which(colnames(rawcounts) %in% pheno$run)]
+pheno<-pheno[which(pheno$run %in% colnames(rawcounts)),]
+
+#create dge object
+count39<-count39[rowMeans(count39) > 0.5, ]
+dge<-DGEList(counts = count39)
+dge<-calcNormFactors(dge)
+
+#for loop parameters
+nrep<-1000
+nsamp<-6 #samples per group
+ntop<-100 
+pthrvalid<-0.05
+pthrtest<-0.05
+vp_fdp<-matrix(0, ncol = ntop, nrow = nrep)
+hom_fdp<-matrix(0, ncol = ntop, nrow = nrep)
+hom_mfdp<-matrix(0, ncol = ntop, nrow = nrep)
+sout<-data.frame(Pi_valid=rep(NA, nrep),
+                 Pi_test=rep(NA, nrep))
+
+#this may take some time to run
+for(i in 1:nrep){
+  set.seed(i+123)  
+  ###test set
+  testset<-c(HCid[sample(1:length(HCid), size=nsamp)],
+             Diaid[sample(1:length(Diaid), size=nsamp)])
+  
+  valset<-setdiff(pheno$run , testset)
+  
+  #corresponding count mat
+  dge_valid<-dge
+  dge_valid$samples<-dge_valid$samples[valset, ]
+  dge_valid$counts<-dge_valid$counts[ , valset]
+  dge_valid<-calcNormFactors(dge_valid)
+  
+  ##########analyze the validation
+  gr_valid<-pheno[valset,"group"]
+  des_valid<-model.matrix(~gr_valid)
+  
+  vobj_valid<-voom(dge_valid, plot=FALSE)
+  vfit_valid<-lmFit(vobj_valid, des_valid)
+  ebfit_valid<-eBayes(vfit_valid)
+  
+  #apply BH ab
+  pfdr=p.adjust(ebfit_valid$p.value[,2], method ="BH")
+  
+  #get the truth
+  nullg<-names(pfdr)[! pfdr < pthrvalid]
+  altg<-names(pfdr)[pfdr < pthrvalid]
+  sout$Pi_valid[i]<-sum(pfdr < pthrvalid)/length(pfdr)
+  
+  ##########analyze the test set
+  dge_test<-dge
+  dge_test$samples<-dge_test$samples[testset, ]
+  dge_test$counts<-dge_test$counts[, testset]
+  dge_test<-calcNormFactors(dge_test)
+  
+  #spilit alt and null genes
+  dge_test_alt<-dge_test[altg,]
+  dge_test_null<-dge_test[nullg,]
+  
+  #keep the row names for null
+  nam_ids<-colnames(dge_test_null)
+  #shuffle null genes
+  dge_test_null<-dge_test_null[,sample(ncol(dge_test_null))]
+  #copy the non_shuffled  rownames
+  colnames(dge_test_null)<-nam_ids
+  #add the alt genes
+  dge_test<-rbind(dge_test_null,dge_test_alt)
+  
+  #grouping of test
+  gr_test<-pheno[testset,"group"]
+  des_test<-model.matrix(~gr_test)
+  
+  vobj_test<-voom(dge_test, plot=FALSE)
+  vfit_test <- lmFit(vobj_test, des_test)
+  ebfit_test <- eBayes(vfit_test)
+  alltest<-topTable(ebfit_test, n=Inf, coef = 2)
+  
+  #filter first by si p
+  alltest$sig<-alltest$adj.P.Val<=pthrtest
+  #sort by logfc
+  alltest<-alltest[order(alltest$sig, abs(alltest$logFC), decreasing = TRUE),]
+  
+  # prop of discoveries 
+  nd<-min(sum(alltest$sig==TRUE), ntop)
+  sout$Pi_test[i]<-sum(alltest$sig==TRUE)/nrow(alltest)
+
+
+  if(nd>0){
+    #record discoveries
+    dis<-rownames(alltest[1:nd,])
+    
+    #calculate false discovery
+    vp_fdp[i,1:nd]<-cumsum(dis %in% nullg)/1:nd
+    
+    #calc hommel fdp
+    homObj<-hommel(alltest$P.Value)
+    
+    hom_mfdp[i,1:nd]<-fdp(homObj, ix=1:nd, alpha = 0.5, incremental = T)
+    
+    hom_fdp[i,1:nd]<-fdp(homObj, ix=1:nd, alpha = 0.05, incremental = T)
+
+  }
+
+  print(i)
+
+}
+colMeans(sout, na.rm = T)
+dim(dge)[1]*sout[,2]
+
+
+```
+
+## bar plot FDP
+
+```{r res_bar_sh, echo=TRUE, eval=TRUE}
+
+barplot(colMeans(vp_fdp),
+          xlab = "Selected Probes", ylab ="FDP", names.arg= c(1:100),
+          cex.axis=1.1,space=rep(0.2,100),ylim = c(0,1))
+abline(h=6)
+
+#results of CT
+head(colMeans(hom_mfdp))
+
+head(colMeans(hom_fdp))
+```

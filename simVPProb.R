@@ -14,27 +14,27 @@ ntop<-100 #number of top features to select
 
 fdp<-matrix(NA, ncol = ntop, nrow = rep)
 
-set.seed(951)
+set.seed(123)
 for(k in 1:rep){
   sigmai<- sigdf * s02 * (1/rchisq(m, df=sigdf))
   sigmai<-sort(sigmai)
   rk<-1:m/(m+1)
   wi=rk^(lamda/2)*(1-rk)^(-lamda/2) #weights for choosing true hypothesis
   wi<-wi/sum(wi)
-  trueset<-sample(1:m, truenum, replace = FALSE, prob = wi) #inexes for truely null probs
-  falseset<-!(1:m %in% trueset)
+  nullset<-sample(1:m, truenum, replace = FALSE, prob = wi) #inexes for truely null probs
+  altset<-!(1:m %in% nullset)
   ###dataset
   data<- data.frame(probeID = 1:m, b0=rep(0,m), b1=rep(0,m))
   
   data$b0<-data$b0<- 0 #b0 for all probs 
-  data$b1[falseset]<- sqrt(s02) * rnorm(sum(falseset), 0, gamma)  #b1 for active probs
-  data$b1[trueset]<-0 #b1 for none active(true null) probs
+  data$b1[altset]<- sqrt(s02) * rnorm(sum(altset), 0, gamma)  #b1 for active probs
+  data$b1[nullset]<-0 #b1 for none active(true null) probs
   
   data$sigma<-sigmai #save variances
   
   #true\false nullstatus
-  data$nullstat<-FALSE
-  data$nullstat[trueset]<-TRUE
+  data$isnull<-FALSE
+  data$isnull[nullset]<-TRUE
   
   #generate y per probe and calculate t and p value
   X=cbind(rep(1,n),rep(0:1, n/2)) #design matrix
@@ -74,7 +74,7 @@ for(k in 1:rep){
   
   #calculated fdr
   if(nd>0){
-    qsum<-cumsum(sub_data$nullstat[1:nd])/(1:nd)
+    qsum<-cumsum(sub_data$isnull[1:nd])/(1:nd)
     fdp[k,]<-c(qsum,rep(qsum[nd], ntop-nd))
   }  else err.vol[k,]<-rep(0,ntop)
   
