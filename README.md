@@ -25,7 +25,7 @@ effect size = 1 , denoted by gamma
 
 For simplicity we do not include the effect of variance here, which is controlled by lambda in the codes (here λ=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-<div style="text-align:center"><img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/BarPlot0.png" width="350" height="350" /></div>
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/BarPlot0.png" width="50%" height="50%" />
 
 
 This means that under these parameters about 14 percent of the time *top* discovery is actually a false discovery. The inflation gets worse, if the null features have larger variances (this can be checked by setting λ>0 in simulation codes).On the other hand, the problem resolves if λ<0. This is a feature of dataset and is not easy to check for this assumption. Furthermore, using the _limma_ package (voom) will worsen the issue as the shrinkage method will implicitly imposes such a relationship. All these issues are explained  in details in the paper.
