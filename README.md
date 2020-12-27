@@ -34,5 +34,5 @@ This means that under these parameters about 14 percent of the time *top* discov
 
 You can go through the 'resample_SRP059039.rmd' file for an example of RNA-seq study with the same issue. We have used subject permutation for some of the features, making them Null features. Nevertheless, analyzing this data set, shows that some of the Null genes are selected by classic VP:
 
-<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/VP_exData.png" width="300" height="300">
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/VP_exData.png" width="50%" height="50%"/>
 
