@@ -25,7 +25,7 @@ effect size = 1 , denoted by gamma
 
 For simplicity we do not include the effect of variance here, which is controlled by lambda in the codes (here λ=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/BarPlot0.png" width="50%" height="50%" />
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/BarPlot0.png" width="70%" height="70%" />
 
 
 This means that under these parameters about 14 percent of the time *top* discovery is actually a false discovery. The inflation gets worse, if the null features have larger variances (this can be checked by setting λ>0 in simulation codes).On the other hand, the problem resolves if λ<0. This is a feature of dataset and is not easy to check for this assumption. Furthermore, using the _limma_ package (voom) will worsen the issue as the shrinkage method will implicitly imposes such a relationship. All these issues are explained  in details in the paper.
@@ -34,7 +34,7 @@ This means that under these parameters about 14 percent of the time *top* discov
 
 You can go through the 'resample_SRP059039.rmd' file for an example of RNA-seq study with the same issue. We have used subject permutation for some of the features, making them Null features. Nevertheless, analyzing this data set, shows that some of the Null genes are selected by classic VP:
 
-<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/VP_exData.png" width="50%" height="50%"/>
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/VP_exData.png" width="70%" height="70%"/>
 
 For this example, 33436 genes were analyzed where the TDP was 0.11. By setting the p-threshold at 0.05 for FDR adjusted p-values and |logFC| threshold at 2, 145 genes are selected. Although the theoretical FDR level is 0.05*(1-0.11)=0.04, the FDP is 37/145=0.26. You can browse the data using Active VP shiny app.
 
