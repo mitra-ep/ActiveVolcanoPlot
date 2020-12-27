@@ -23,5 +23,5 @@ ggplot() +
                          values = c(17, 16)) +
      xlab("Fold Change") +
      ylab("-Log10 p-value")+
-     theme_minimal()+
+     theme_minimal(base_size=22,base_family = "serif")+
      theme(legend.position = "bottom")
