@@ -1,7 +1,7 @@
 library(ggplot2)
 
 exData$selected<-0
-exData$selected[which(abs(exData$betahat)>2 & exData$pval.fdr<0.05)]<-1
+exData$selected[which(abs(exData$betahat)>1 & exData$pval.fdr<0.1)]<-1
 
 
 #volcano plot
@@ -10,8 +10,8 @@ ggplot() +
                               color = factor(selected), shape=as.factor(8*isnull)))+
   geom_hline(yintercept=-log10(max(exData$pval[exData$selected==1])),
              linetype="solid", color = "gray95", size=1)+
-  geom_vline(xintercept=2, linetype="solid", color = "gray95", size=1)+
-  geom_vline(xintercept=-2, linetype="solid", color = "gray95", size=1)+
+  geom_vline(xintercept=1, linetype="solid", color = "gray95", size=1)+
+  geom_vline(xintercept=-1, linetype="solid", color = "gray95", size=1)+
   scale_colour_manual(name = "Status",
                       labels = c("Selected" ,"Not Selected"),
                       values = c("red", "blue"),
