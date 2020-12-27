@@ -8,7 +8,7 @@ Here we introduce very briefly the issue with classic volcano plots and give som
 
 ## Simulation study example
 
-The codes to reproduce the simulation results under different parameters in provided above ('simVPProb.R'). The data are generated based on a simple regression model with a group variable. The goal is to detect the differentially expressed features between two groups (diseased vs control). Here we will use the example data produced under following parameters:\
+The codes to reproduce the simulation results under different parameters in provided above ('exra/simVPProb.R'). The data are generated based on a simple regression model with a group variable. The goal is to detect the differentially expressed features between two groups (diseased vs control). Here we will use the example data produced under following parameters:\
 Number of features = 20000 , denoted by m\
 sample size = 12, denoted by n\
 proportion of truly active features = 0.2 , denoted by pi1\
@@ -16,11 +16,13 @@ effect size = 1 , denoted by gamma
 
 For simplicity we do not include the effect of variance here, which is controled by lambda in the codes (here lambda=0). Simulations are repeated 1000 times and the corresponding data are plotted below. False discovery proportion (FDP) for selecting top 1 to 100 features is:
 
-<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/Data/BarPlot0.png" width="300" height="300">
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/exra/BarPlot0.png" width="300" height="300">
 
 This means that under these parameters about 14 percent of the time *top* discovery is actually a false dicovery.
 
-**Note:** You can checkout the 'resample_SRP059039.rmd' file for an example of RNA-seq study with the same issue.
+**Note:** You can checkout the 'resample_SRP059039.rmd' file for an example of RNA-seq study with the same issue. We have used subject permutation for some of the features, making them Null features. Nevertheless, analyzing this data set, shows that some of the Null genes are selected by classic VP:
+
+<img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/exra/VP_exData.png" width="300" height="300">
 
 # Active Volcano Plot
 
