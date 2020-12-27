@@ -36,3 +36,5 @@ You can go through the 'resample_SRP059039.rmd' file for an example of RNA-seq s
 
 <img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/VP_exData.png" width="50%" height="50%"/>
 
+For this example, 20k genes were analyzed where the TDP was 0.85. By setting the p-threshold at 0.1 for FDR adjusted p-values and |logFC| threshold at 1, 91 genes are selected. Although the theoretical FDR level is 
+
