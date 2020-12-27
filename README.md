@@ -28,7 +28,8 @@ For simplicity we do not include the effect of variance here, which is controlle
 <img src="https://github.com/mitra-ep/ActiveVolcanoPlot/blob/master/extra/BarPlot0.png" width="70%" height="70%" />
 
 
-This means that under these parameters about 14 percent of the time *top* discovery is actually a false discovery. The inflation gets worse, if the null features have larger variances (this can be checked by setting λ>0 in simulation codes).On the other hand, the problem resolves if λ<0. This is a feature of dataset and is not easy to check for this assumption. Furthermore, using the _limma_ package (voom) will worsen the issue as the shrinkage method will implicitly imposes such a relationship. All these issues are explained  in details in the paper.
+This means that under these parameters about 14 percent of the time *top* discovery is actually a false discovery.\
+The inflation gets worse, if the null features have larger variances (this can be checked by setting λ>0 in simulation codes). Although, the problem resolves if λ<0. This is a feature of dataset and is not easy to check for this assumption holds. So the application of classic volcano plot assumes that λ<0, which may not be true. Furthermore, using the _limma_ package (voom) will also worsen the issue as the shrinkage method will implicitly imposes such a relationship. All these properties are explained with details in the paper.
 
 ### RNA-seq data
 
