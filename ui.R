@@ -50,9 +50,10 @@ ui<-shinyUI(pageWithSidebar(
                            any set of selected features. It incorporates closed testing with Simes local test to build
                            simultaneous confidence bound for any subset of features, along with a median point estimate.
                            This means that changing the thresholds for fold change and p-value will not inflated the type
-                           I error rate over the selected features."),
+                           I error rate over the selected features. You can download the list of selected features using download button.
+                           It is easy to save the image by right-clicking on the image and selecting `Save image as..` option."),
                         tags$div(
-                          "For more details abut this app and to see read about the type I erro inflation of classic volcano plots,
+                          "For more details about this app and to see read about the type I erro inflation of classic volcano plots,
                           visit this",
                           tags$a(href="https://github.com/mitra-ep/ActiveVolcanoPlot", 
                                  "github page.")
