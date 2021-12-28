@@ -118,7 +118,7 @@ server <- function(input, output) {
         }
       }
 
-      return(vals<-list(selected, c(tright=tright,tleft=tleft)))
+      return(vals<-list(selected, c(tright=tright,tleft=tleft,pthr=pthr)))
     
   })
   
@@ -197,16 +197,22 @@ server <- function(input, output) {
   
   # Downloadable csv of selected features
   output$downloadData <- downloadHandler(
-         filename = function() {
+       filename = function() {
         paste("selected", Sys.Date(), ".csv", sep = "")
          },
-        
-        content = function(file) {
+  
+          content = function(file) {
           indata<-input.data()
-          selected<-select.fun()[[1]]
-          numslec<-length(selected)
+          vals<-select.fun()
+          numslec<-length(vals[[1]])
           if(numslec!=0){
-            indata2<-indata[selected[1:numslec],]}
+            indata2<-indata[1:numslec,]}
+          
+          #add thresholds
+          indata2[numslec+1,]<-c("FCr",vals[[2]]["tright"],NA)
+          indata2[numslec+2,]<-c("FCl",vals[[2]]["tleft"],NA)
+          indata2[numslec+3,]<-c("p",vals[[2]]["pthr"],NA)
+          
           write.csv(indata2, file, row.names = FALSE)
         }
 
