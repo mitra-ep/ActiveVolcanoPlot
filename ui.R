@@ -63,7 +63,7 @@ ui<-shinyUI(pageWithSidebar(
 
                         h4("Input File"),
                         h5("The input file should be in text format with 3 columns in this order:
-                           featureID, fold change, raw p-value.") )
+                           featureID, fold change (log2FC), raw p-value (not adjusted).") )
       
            )
         )
