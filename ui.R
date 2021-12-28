@@ -55,7 +55,7 @@ ui<-shinyUI(pageWithSidebar(
                            the thresholds used for selection. It is also easy to save the plot by right-clicking on
                            the image and selecting",em("Save image as..."), "option."),
                           tags$div(
-                          "For more details abut this app and to see read about the type I erro inflation of classic volcano plots,
+                          "To learn more about the app and the inflation of type I error due to classic volcano plots,
                           visit this",
                           tags$a(href="https://github.com/mitra-ep/ActiveVolcanoPlot", 
                                  "github page.")
