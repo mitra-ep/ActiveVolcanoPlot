@@ -46,14 +46,16 @@ ui<-shinyUI(pageWithSidebar(
       tabPanel("Data Preview", tableOutput("contents")),
                tabPanel("Help",
                         h4("About"),
-                        h5("This Shiny app is designed to create volcano plot with type I error control over
-                           any set of selected features. It incorporates closed testing with Simes local test to build
-                           simultaneous confidence bound for any subset of features, along with a median point estimate.
-                           This means that changing the thresholds for fold change and p-value will not inflated the type
-                           I error rate over the selected features. You can download the list of selected features using download button.
-                           It is easy to save the image by right-clicking on the image and selecting `Save image as..` option."),
-                        tags$div(
-                          "For more details about this app and to see read about the type I erro inflation of classic volcano plots,
+                        h5("This Shiny app is designed to create volcano plot with type I error control over any set of
+                            selected features. It incorporates closed testing with Simes local test to build simultaneous
+                            confidence bound for any subset of features, along with a median point estimate.This means that
+                            changing the thresholds for fold change and p-value will not inflated the type I error rate over
+                            the selected features.",br(),br(), "You can download the list of selected features using",
+                           em("Download Selected Features"),"button. For reproducibility, the last 3 rows of the csv file includes
+                           the thresholds used for selection. It is also easy to save the plot by right-clicking on
+                           the image and selecting",em("Save image as..."), "option."),
+                          tags$div(
+                          "For more details abut this app and to see read about the type I erro inflation of classic volcano plots,
                           visit this",
                           tags$a(href="https://github.com/mitra-ep/ActiveVolcanoPlot", 
                                  "github page.")
