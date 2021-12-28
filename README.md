@@ -6,7 +6,7 @@ This page is the reference code page for the simulations used to portray the inh
 
 R application that uses *shiny* to build a user interface to get an Active volcano plot for the specified dataset. The name *Active* refers to the fact that modification of thresholds does not inflate type I error. *Post-hoc* selection of features is allowed due to use of closed testing.
 
-See https://mebpr.shinyapps.io/activevp/ to use the online version (Updated on 20-12-2020).
+See https://mebpr.shinyapps.io/activevp/ to use the online version (Updated on 28-12-2021).
 
 
 # Type I error inflation with classic volcano Plots
@@ -16,6 +16,7 @@ Here we introduce very briefly the issue with classic volcano plots (VP) and giv
 ## Examples
 
 ### Simulation experiment
+
 The codes to reproduce the simulation results under different parameters in provided above ('extra/simVPProb.R'). The data are generated based on a simple regression model with the group indicator as the independent variable. The goal is to detect the differentially expressed features between two groups (diseased vs control). Here we will use the example data produced under following parameters:\
 
 Number of features = 20000 , denoted by m\
