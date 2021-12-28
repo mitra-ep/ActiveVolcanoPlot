@@ -198,12 +198,12 @@ server <- function(input, output) {
   # Downloadable csv of selected features
   output$downloadData <- downloadHandler(
          filename = function() {
-        paste("selected", ".csv", sep = "")
+        paste("selected", Sys.Date(), ".csv", sep = "")
          },
         
         content = function(file) {
           indata<-input.data()
-          selected<-select.fun()
+          selected<-select.fun()[[1]]
           numslec<-length(selected)
           if(numslec!=0){
             indata2<-indata[selected[1:numslec],]}
